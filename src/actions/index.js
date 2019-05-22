@@ -1,4 +1,9 @@
-import { ADD_TASK, DELETE_TASK, COMPLETE_TASK, CHANGE_TASK } from './types';
+import { ADD_TASK, 
+         DELETE_TASK, 
+         COMPLETE_TASK, 
+         CHANGE_TASK, 
+         DELETE_COMPLETED_TASK, 
+         BACK_TO_TASKS } from './types';
 
 
 export const addTask = text => {
@@ -25,19 +30,24 @@ export const completeTask = (id, text) => {
 };
 
 export const changeTask = (id, text) => {
-  console.log('id', id, 'text', text);
   return {
     type: CHANGE_TASK,
     id,
     text
-  }
-}
-
-
-export const selectTask= (task) => {
-  // Return an action
-  return {
-    type: 'TASK_SELECTED',
-    payload: task
   };
 };
+
+export const deleteCompletedTask = (id) => {
+  return {
+    type: DELETE_COMPLETED_TASK,
+    id
+  };
+};
+
+export const backToTasks = (id, text) => {  
+  return {
+    type: BACK_TO_TASKS,
+    id,
+    text
+  };
+}; 

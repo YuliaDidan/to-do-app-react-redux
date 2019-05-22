@@ -3,19 +3,19 @@ import { connect } from 'react-redux';
 import { deleteTask, completeTask, changeTask } from '../actions';
 
 class Task extends React.Component {
-  state = {task: ""}
+  state = {task: ""};
 
 onChange = (e) => {
   this.setState({task: e.target.value});
-}
+};
 
 onFormSubmit = (event) => {
   event.preventDefault();
   if(this.state.task){
     this.props.changeTask(this.props.index, this.state.task);
     this.setState({task: ''});
-  }   
-}
+  };   
+};
   
 removeTask = () => this.props.deleteTask(this.props.index);
 toCompleteTask = () => this.props.completeTask(this.props.index, this.props.task);
@@ -33,9 +33,9 @@ render() {  return (
               Delete
             </button>
           </form>
-    )  
-  }
-}
+    );  
+  };
+};
 
 export default connect(null, { deleteTask, completeTask, changeTask })(Task);
 

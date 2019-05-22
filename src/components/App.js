@@ -9,7 +9,7 @@ const App = () => {
       <div className="ui container">
       <AddTask />
       <TasksList />
-      <CompletedTasks style={{padding: '0'}}/>
+      <CompletedTasks />
       </div>    
   ); 
 };

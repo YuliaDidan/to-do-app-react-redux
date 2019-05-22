@@ -2,3 +2,5 @@ export const ADD_TASK = 'ADD_TASK';
 export const DELETE_TASK = 'DELETE_TASK';
 export const COMPLETE_TASK = 'COMPLETE_TASK';
 export const CHANGE_TASK = 'CHANGE_TASK';
+export const DELETE_COMPLETED_TASK = 'DELETE_COMPLETED_TASK';
+export const BACK_TO_TASKS = 'BACK_TO_TASKS';

@@ -3,35 +3,29 @@ import { connect } from 'react-redux';
 import Task from './Task'
 
 const TasksList = props => {
-  let renderList = () => {    
-    return props.items.map((task) => {
-      return (        
-          <Task 
-            key={task.id}
-            index={task.id}
-            task={task.text}            
-          />       
-      );
-    });
-  }
+  const tasks = props.items;
+  let notesRendered;    
+  if (tasks.length > 0) {
+    notesRendered = tasks.map((task) => {
+        return (        
+            <Task 
+              key={task.id}
+              index={task.id}
+              task={task.text}            
+            />       
+        );
+      });
+    } else {
+    notesRendered = <p>You have nothing to-do</p>
+  } 
            
     return (
-  <div className="ui divided list">{renderList()}</div>
+  <div className="ui divided list">{notesRendered}</div>
     ) 
   
 }
 
-// const mapDispatchToProps = {
-//   deleteTask: deleteTask
-// }
-
-// const mapStateToProps = state =>({
-//   // console.log('state', state)
-//   items: state.tasks.items
-// })
-
 const mapStateToProps = state => {
-  console.log('stateItems', state)
   return {items: state.tasks.items}
 }
 
