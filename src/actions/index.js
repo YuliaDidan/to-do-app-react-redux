@@ -1,4 +1,4 @@
-import { ADD_TASK, DELETE_TASK } from './types';
+import { ADD_TASK, DELETE_TASK, COMPLETE_TASK, CHANGE_TASK } from './types';
 
 
 export const addTask = text => {
@@ -15,6 +15,24 @@ export const deleteTask = (id) => {
     id
   };
 };
+
+export const completeTask = (id, text) => {
+  return {
+    type: COMPLETE_TASK,
+    id,
+    text
+  };
+};
+
+export const changeTask = (id, text) => {
+  console.log('id', id, 'text', text);
+  return {
+    type: CHANGE_TASK,
+    id,
+    text
+  }
+}
+
 
 export const selectTask= (task) => {
   // Return an action

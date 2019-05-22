@@ -1,26 +1,43 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deleteTask } from '../actions';
+import { deleteTask, completeTask, changeTask } from '../actions';
 
-const Task = ({ task, index }) => {
-  
-const removeTask = () => deleteTask(index);
-  
-  return  <form>
-            <input defaultValue={task} index={index} readOnly />
-            <button type="button">
-              Save
-            </button>            
-            <button type="button">              
-              Complete
-            </button>            
-            <button type="button" onClick={removeTask}>
-              Delete
-            </button>
-          </form>  
+class Task extends React.Component {
+  state = {task: ""}
+
+onChange = (e) => {
+  this.setState({task: e.target.value});
 }
 
-export default connect(null, { deleteTask })(Task);
+onFormSubmit = (event) => {
+  event.preventDefault();
+  if(this.state.task){
+    this.props.changeTask(this.props.index, this.state.task);
+    this.setState({task: ''});
+  }   
+}
+  
+removeTask = () => this.props.deleteTask(this.props.index);
+toCompleteTask = () => this.props.completeTask(this.props.index, this.props.task);
+  
+render() {  return (  
+          <form onSubmit={this.onFormSubmit}>
+            <input defaultValue={this.props.task} index={this.props.index} onChange={this.onChange} />
+            <button type="submit">
+              Save
+            </button>            
+            <button type="button" onClick={this.toCompleteTask}>              
+              Complete
+            </button>            
+            <button type="button" onClick={this.removeTask}>
+              Delete
+            </button>
+          </form>
+    )  
+  }
+}
+
+export default connect(null, { deleteTask, completeTask, changeTask })(Task);
 
 
 

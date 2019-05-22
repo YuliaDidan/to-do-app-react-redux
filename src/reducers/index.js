@@ -1,29 +1,33 @@
 import { combineReducers } from 'redux';
-import { ADD_TASK, DELETE_TASK } from '../actions/types';
+import { ADD_TASK, DELETE_TASK, COMPLETE_TASK, CHANGE_TASK } from '../actions/types';
 
-// const tasksReducer = () => {
-//   return [
-//     { text: 'Wash floor', id: '1'},
-//     { text: 'Cook dinner', id: '2'},
-//     { text: 'Iron clothes', id: '3'},
-//     { text: 'Go shopping', id: '4'},
-//     { text: 'Go walking outside', id: '5'}
-//   ];
-// };
-
-const INITIAL_STATE = { items: [] } ;
+const INITIAL_STATE = { items: [], itemsCompleted: [] } ;
 
 const tasks = (state = INITIAL_STATE, action) => {
+ 
   switch (action.type) {    
-    case ADD_TASK:
-      // фіconsole.log('action', action) 
+    case ADD_TASK:         
       const todoItem = {id: action.id, text: action.text}
       return {...state, items: [...state.items, todoItem]}
-    case DELETE_TASK: 
-      console.log('action', action)     
+    case DELETE_TASK:            
       const items = state.items.filter(({ id })=> id !== action.id)      
-      return  {...state, items};     
-    
+      return  {...state, items};      
+    case COMPLETE_TASK:      
+      const itemsToComplete = state.items.filter(({id}) => id !== action.id);      
+      const itemCompleted = {id: action.id, text: action.text};      
+      return {...state, items: itemsToComplete, itemsCompleted: [...state.itemsCompleted, itemCompleted]};
+    case CHANGE_TASK:
+      console.log('action', action);
+      const getIndex = (arr, id) => {
+        for (let el of arr) {
+          if(el.id === id) {
+             return arr.indexOf(el)  
+          }
+        }
+      } 
+      let itemsForChange = [...state.items];      
+      itemsForChange.splice(getIndex(state.items, action.id), 1, action);
+        return {...state, items: itemsForChange};    
     default: 
       return state;
   }
