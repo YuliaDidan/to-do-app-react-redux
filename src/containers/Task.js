@@ -37,8 +37,8 @@ render() {  return (
   };
 };
 
-export default connect(null, { deleteTask, completeTask, changeTask })(Task);
-
+export default connect(null, { deleteTask, completeTask,  changeTask } )(Task);
+ 
 
 
 

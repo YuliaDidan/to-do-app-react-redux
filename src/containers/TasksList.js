@@ -1,32 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Task from './Task'
+import Task from './Task';
 
 const TasksList = props => {
-  const tasks = props.items;
-  let notesRendered;    
-  if (tasks.length > 0) {
-    notesRendered = tasks.map((task) => {
-        return (        
-            <Task 
-              key={task.id}
-              index={task.id}
-              task={task.text}            
-            />       
-        );
-      });
-    } else {
-    notesRendered = <p>You have nothing to-do</p>
-  } 
-           
+  const tasks = props.items;  
+  let tasksRendered =  tasks.length > 0 ? (tasks.map((task) => {
+    return (        
+        <Task 
+          key={task.id}
+          index={task.id}
+          task={task.text}            
+        />       
+    );
+  })) : (
+    <p>You have nothing to-do</p>
+  )  
+             
     return (
-  <div className="ui divided list">{notesRendered}</div>
+  <div className="ui divided list">{tasksRendered}</div>
     ) 
   
 }
 
-const mapStateToProps = state => {
-  return {items: state.tasks.items}
+const mapStateToProps = state => { 
+  return {
+    items: state.tasks.get('items').toJS()
+  }
 }
 
 export default connect(mapStateToProps)(TasksList);

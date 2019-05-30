@@ -9,31 +9,39 @@ import { ADD_TASK,
 export const addTask = text => {
   return {
     type: ADD_TASK,
-    id: Date.now(),
-    text    
+    payload: {
+      id: Date.now(),
+      text: text,
+    }        
   };
 };
 
 export const deleteTask = (id) => {
   return {
     type: DELETE_TASK,
-    id
+    payload: {
+      id: id
+    }
   };
 };
 
 export const completeTask = (id, text) => {
   return {
     type: COMPLETE_TASK,
-    id,
-    text
+    payload: {
+      id: id,
+      text: text
+    }   
   };
 };
 
 export const changeTask = (id, text) => {
   return {
     type: CHANGE_TASK,
-    id,
-    text
+    payload: {
+      id: id,
+      text: text
+    }  
   };
 };
 
@@ -47,7 +55,9 @@ export const deleteCompletedTask = (id) => {
 export const backToTasks = (id, text) => {  
   return {
     type: BACK_TO_TASKS,
-    id,
-    text
+    payload: {
+      id: id,
+      text: text
+    } 
   };
 }; 

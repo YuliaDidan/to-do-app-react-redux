@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { fromJS, List } from 'immutable';
 import { ADD_TASK, 
          DELETE_TASK, 
          COMPLETE_TASK, 
@@ -6,21 +7,31 @@ import { ADD_TASK,
          DELETE_COMPLETED_TASK, 
          BACK_TO_TASKS } from '../actions/types';
 
-const INITIAL_STATE = { items: [], itemsCompleted: [] };
+const INITIAL_STATE = fromJS({ items: [], itemsCompleted: [] });
 
 const tasks = (state = INITIAL_STATE, action) => {
   switch (action.type) {    
-    case ADD_TASK:         
-      const todoItem = {id: action.id, text: action.text}
-      return {...state, items: [...state.items, todoItem]};
+    case ADD_TASK:        
+      let newItems = state.get('items').toJS();           
+      newItems.push(action.payload);           
+      return state.set('items', List(newItems));
+ 
     case DELETE_TASK:            
-      const items = state.items.filter(({ id })=> id !== action.id)      
-      return  {...state, items};      
-    case COMPLETE_TASK:      
-      const itemsToComplete = state.items.filter(({id}) => id !== action.id);      
-      const itemCompleted = {id: action.id, text: action.text};      
-      return {...state, items: itemsToComplete, itemsCompleted: [...state.itemsCompleted, itemCompleted]};
-    case CHANGE_TASK:      
+      const items = state.get('items');
+      const filteredItems = items.filter(({ id })=> id !== action.payload.id)      
+      return  state.set('items', filteredItems);  
+
+    case COMPLETE_TASK: 
+      const itemsForFilter = state.get('items').toJS();     
+      const itemsFiltered = itemsForFilter.filter(({id}) => id !== action.payload.id);      
+      const itemsForComplete = state.get('itemsCompleted');
+      const itemsCompleted = itemsForComplete.push(action.payload); 
+      
+      return state
+              .set('items', List(itemsFiltered))
+              .set('itemsCompleted', List( itemsCompleted));
+    
+      case CHANGE_TASK:      
       const getIndex = (arr, id) => {
         for (let el of arr) {
           if(el.id === id) {
@@ -28,16 +39,23 @@ const tasks = (state = INITIAL_STATE, action) => {
           };
         };
       }; 
-        let itemsForChange = [...state.items];      
-        itemsForChange.splice(getIndex(state.items, action.id), 1, action);
-        return {...state, items: itemsForChange};
+      let itemsForChange = state.get('items').toJS();      
+      itemsForChange.splice(getIndex(state.get('items').toJS(), action.payload.id), 1, action.payload);
+      return state.set('items', List(itemsForChange));
+
       case DELETE_COMPLETED_TASK:        
-        const itemsCompletedAfterDelete = state.itemsCompleted.filter(({id}) => id !== action.id);
-        return {...state, itemsCompleted: itemsCompletedAfterDelete};
-      case BACK_TO_TASKS:       
-        const itemsCompleted = state.itemsCompleted.filter(({id}) => id !== action.id);
-        const itemToTask = {id: action.id, text: action.text}; 
-        return {...state, items: [...state.items, itemToTask ], itemsCompleted: itemsCompleted};  
+      const itemsCompletedAfterDelete = state.get('itemsCompleted').toJS().filter(({id}) => id !== action.id);
+      return state.set('itemsCompleted', List(itemsCompletedAfterDelete));
+      
+      case BACK_TO_TASKS:        
+      const itmesAdded = state.get('items').toJS();
+      itmesAdded.push(action.payload);
+      const itemsCompletedFiltered = state.get('itemsCompleted').toJS().filter(({id}) => id !== action.payload.id);
+         
+      return state
+            .set('items', List(itmesAdded))
+            .set('itemsCompleted', List(itemsCompletedFiltered));  
+      
       default: 
       return state;
   };
