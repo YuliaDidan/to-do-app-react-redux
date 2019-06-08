@@ -1,0 +1,32 @@
+{
+  "env": {
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "react-app",
+    "prettier"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "rules": {
+    "no-console": 0,
+    "trailingComma": "es5",
+    "semi": ["error", "never"],
+    "indent": ["error", 2],
+    "jsx-quotes": [
+      1,
+      "prefer-double"
+    ],
+    "indentSwitchCase": true
+  },
+  "plugins": [
+    "prettier"
+  ]
+}

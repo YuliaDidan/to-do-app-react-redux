@@ -3,26 +3,26 @@ import { connect } from 'react-redux';
 import Task from './Task';
 
 const TasksList = props => {
-  const tasks = props.items;  
+  const tasks = props.items;
   let tasksRendered =  tasks.length > 0 ? (tasks.map((task) => {
-    return (        
-        <Task 
+    return (
+        <Task
           key={task.id}
           index={task.id}
-          task={task.text}            
-        />       
+          task={task.text}
+        />
     );
   })) : (
     <p>You have nothing to-do</p>
-  )  
-             
+  )
+
     return (
   <div className="ui divided list">{tasksRendered}</div>
-    ) 
-  
+    )
+
 }
 
-const mapStateToProps = state => { 
+const mapStateToProps = state => {
   return {
     items: state.tasks.get('items').toJS()
   }
